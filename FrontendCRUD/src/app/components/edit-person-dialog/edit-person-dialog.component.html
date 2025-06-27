@@ -1,0 +1,53 @@
+<div class="p-5">
+    <div class="d-flex w-100 justify-content-center">
+    <h1 mat-dialog-title>Editar Colaborador</h1>
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="personForm">
+    <div class="mb-3">
+          <label for="name" class="form-label">ID Empresa: </label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+            <input type="number" class="form-control" formControlName="empresaId" placeholder="Id de la empresa">
+          </div>
+          <span class="text-danger" *ngIf="personForm.get('empresaId')?.invalid && personForm.get('empresaId')?.touched">{{getErrorMessage('empresaId')}}</span>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre del Colaborador:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+            <input type="text" class="form-control" formControlName="nombreCompleto" placeholder="Nombre Completo">
+          </div>
+          <span class="text-danger" *ngIf="personForm.get('nombreCompleto')?.invalid && personForm.get('nombreCompleto')?.touched">{{getErrorMessage('nombreCompleto')}}</span>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Edad:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+            <input type="number" class="form-control" formControlName="edad" placeholder="Edad">
+          </div>
+          <span class="text-danger" *ngIf="personForm.get('edad')?.invalid && personForm.get('edad')?.touched">{{getErrorMessage('edad')}}</span>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Teléfono:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+            <input type="text" class="form-control" formControlName="telefono" placeholder="Teléfono">
+          </div>
+          <span class="text-danger" *ngIf="personForm.get('telefono')?.invalid && personForm.get('telefono')?.touched">{{getErrorMessage('telefono')}}</span>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Correo:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+            <input type="text" class="form-control" formControlName="correo" placeholder="Correo">
+          </div>
+          <span class="text-danger" *ngIf="personForm.get('correo')?.invalid && personForm.get('correo')?.touched">{{getErrorMessage('correo')}}</span>
+        </div>
+  </form>
+</div>
+<div mat-dialog-actions class="w-100 d-flex justify-content-center">
+  <button mat-button (click)="close()" class="btn btn-danger me-2">Cancelar</button>
+  <button mat-button (click)="updatePerson()" class="btn btn-success" [disabled]="personForm.invalid">Actualizar</button>
+</div>
+</div>

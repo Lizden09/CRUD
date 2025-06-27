@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model colaborador {
+  id             Int     @id @default(autoincrement())
+  empresaId      Int
+  nombreCompleto String
+  edad           Int
+  telefono       String?
+  correo         String?
+  empresa        empresa @relation(fields: [empresaId], references: [id], map: "Colaborador_empresaId_fkey")
+
+  @@index([empresaId], map: "Colaborador_empresaId_fkey")
+}
+
+model departamento {
+  id        Int         @id @default(autoincrement())
+  nombre    String
+  paisId    Int
+  pais      pais        @relation(fields: [paisId], references: [id], map: "Departamento_paisId_fkey")
+  empresa   empresa[]
+  municipio municipio[]
+
+  @@index([paisId], map: "Departamento_paisId_fkey")
+}
+
+model empresa {
+  id              Int           @id @default(autoincrement())
+  paisId          Int
+  departamentoId  Int
+  municipioId     Int
+  nit             String
+  razonSocial     String
+  nombreComercial String?
+  telefono        String?
+  correo          String?
+  colaborador     colaborador[]
+  departamento    departamento  @relation(fields: [departamentoId], references: [id], map: "Empresa_departamentoId_fkey")
+  municipio       municipio     @relation(fields: [municipioId], references: [id], map: "Empresa_municipioId_fkey")
+  pais            pais          @relation(fields: [paisId], references: [id], map: "Empresa_paisId_fkey")
+
+  @@index([departamentoId], map: "Empresa_departamentoId_fkey")
+  @@index([municipioId], map: "Empresa_municipioId_fkey")
+  @@index([paisId], map: "Empresa_paisId_fkey")
+}
+
+model municipio {
+  id             Int          @id @default(autoincrement())
+  nombre         String
+  departamentoId Int
+  empresa        empresa[]
+  departamento   departamento @relation(fields: [departamentoId], references: [id], map: "Municipio_departamentoId_fkey")
+
+  @@index([departamentoId], map: "Municipio_departamentoId_fkey")
+}
+
+model pais {
+  id           Int            @id @default(autoincrement())
+  nombre       String
+  departamento departamento[]
+  empresa      empresa[]
+}

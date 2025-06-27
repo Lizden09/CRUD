@@ -1,0 +1,21 @@
+<div class="p-5">
+    <div class="d-flex w-100 justify-content-center">
+    <h1 mat-dialog-title>Editar País</h1>
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="countryForm">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre del País:</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+        <input type="text" class="form-control" formControlName="nombre" placeholder="Ingresa el nombre del país">
+      </div>
+      <span class="text-danger" *ngIf="countryForm.get('nombre')?.invalid && countryForm.get('nombre')?.touched">{{getErrorMessage('nombre')}}</span>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions class="w-100 d-flex justify-content-center">
+  <button mat-button (click)="close()" class="btn btn-danger me-2">Cancelar</button>
+  <button mat-button (click)="updateCountry()" class="btn btn-success" [disabled]="countryForm.invalid">Actualizar</button>
+</div>
+</div>
