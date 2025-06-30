@@ -12,11 +12,12 @@ import { CountryServiceService } from './services/country-service.service';
 import { AddPersonDialogComponent } from './components/add-person-dialog/add-person-dialog.component';
 import { PersonServiceService } from './services/person-service.service';
 import { EditPersonDialogComponent } from './components/edit-person-dialog/edit-person-dialog.component';
+import { CompanyComponent } from "./entities/company/company.component";
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatTableModule, MatPaginatorModule],
+  imports: [RouterOutlet, MatTableModule, MatPaginatorModule, CompanyComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -27,7 +28,6 @@ export class AppComponent implements OnInit {
   displayedColumnsPersons: string[] = ['id', 'empresaId', 'nombreCompleto', 'edad', 'telefono', 'correo', 'actions'];
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   dataSourcePersons: MatTableDataSource<any> = new MatTableDataSource();
-  products: any[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 

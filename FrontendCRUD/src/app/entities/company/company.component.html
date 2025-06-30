@@ -1,0 +1,54 @@
+<div class="card p-5">
+        <button mat-button class="btn btn-success" (click)="addCompany()"
+          style="width: 150px;">Nuevo</button>
+          <mat-table [dataSource]="dataSourceCompany" matSort>
+          
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+            </ng-container>
+          
+            <ng-container matColumnDef="paisId">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del País </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.paisId}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nit">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> NIT </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.nit}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="razonSocial">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Razón Social </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.razonSocial}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nombreComercial">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Comercial </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.nombreComecial}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="telefono">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.telefono}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="correo">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Correo </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.correo}} </mat-cell>
+            </ng-container>
+          
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button mat-button class="btn btn-warning me-2" (click)="editCompany(element)">Editar</button>
+                <button mat-button class="btn btn-danger" (click)="deleteCompany(element)">Eliminar</button>
+              </mat-cell>
+            </ng-container>
+          
+            <mat-header-row *matHeaderRowDef="displayedColumnsCompany"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsCompany;"></mat-row>
+          </mat-table>
+      
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>

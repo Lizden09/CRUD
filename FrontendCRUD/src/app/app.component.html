@@ -32,7 +32,7 @@
       <hr>
       <div class="card p-5">
         <button mat-button class="btn btn-success" (click)="addPerson()"
-          style="width: 150px;">Nuevo Colaborador</button>
+          style="width: 150px;">Nueva Empresa</button>
           <mat-table [dataSource]="dataSourcePersons" matSort>
           
             <ng-container matColumnDef="id">
@@ -79,5 +79,5 @@
       
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </div>
-
+      <app-company></app-company>
     </router-outlet>

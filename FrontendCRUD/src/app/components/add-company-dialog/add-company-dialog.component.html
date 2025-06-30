@@ -1,0 +1,45 @@
+<div class="p-5">
+    <div class="d-flex w-100 justify-content-center">
+        <h1 mat-dialog-title>Agregar Empresa</h1>
+    </div>
+    <div mat-dialog-content>
+      <form [formGroup]="companyForm">
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre del País:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+            <input type="number" class="form-control" formControlName="nombre" placeholder="Nombre del país">
+          </div>
+          <span class="text-danger" *ngIf="companyForm.get('paisId')?.invalid && companyForm.get('paisId')?.touched">{{getErrorMessage('nombre')}}</span>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">NIT:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+            <input type="text" class="form-control" formControlName="nit" placeholder="NIT">
+          </div>
+          <span class="text-danger" *ngIf="companyForm.get('nit')?.invalid && companyForm.get('nit')?.touched">{{getErrorMessage('nombre')}}</span>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Razón Social:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+            <input type="text" class="form-control" formControlName="razonSocial" placeholder="Razón Social">
+          </div>
+          <span class="text-danger" *ngIf="companyForm.get('razonSocial')?.invalid && companyForm.get('razonSocial')?.touched">{{getErrorMessage('nombre')}}</span>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Razón Social:</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
+            <input type="text" class="form-control" formControlName="razonSocial" placeholder="Razón Social">
+          </div>
+          <span class="text-danger" *ngIf="companyForm.get('razonSocial')?.invalid && companyForm.get('razonSocial')?.touched">{{getErrorMessage('nombre')}}</span>
+        </div>
+      </form>
+    </div>
+    <div mat-dialog-actions class="w-100 d-flex justify-content-center">
+      <button mat-button (click)="close()" class="btn btn-danger me-2">Cancelar</button>
+      <button mat-button (click)="addCompany()" class="btn btn-success" [disabled]="companyForm.invalid">Agregar</button>
+    </div>
+</div>
