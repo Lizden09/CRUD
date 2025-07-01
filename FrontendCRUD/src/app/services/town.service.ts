@@ -14,4 +14,21 @@ export class TownService {
   getTowns(departamentoId: number): Observable<any> {
     return this.http.get<any>(`${this.URL}/departamento/${departamentoId}`);
   }
+
+  getAllTowns(): Observable<any> {
+    return this.http.get<any>(this.URL);
+  }
+
+  addTown(town: { name: string }): Observable<any> {
+    return this.http.post(this.URL, town);
+  }
+
+  updateTown(townId: number, town: {
+    nombre?: string}): Observable<any> {
+    return this.http.put(`${this.URL}/${townId}`, town);
+  }
+
+  deleteTown(townId: number): Observable<any> {
+    return this.http.delete(`${this.URL}/${townId}`);
+  }
 }

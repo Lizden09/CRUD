@@ -46,7 +46,6 @@ export class StateComponent implements OnInit {
   getAllStates() {
     this.allStatesService.getAllStates().subscribe(
       response => {
-        console.log(response, "states");
         this.dataSource = new MatTableDataSource(response);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

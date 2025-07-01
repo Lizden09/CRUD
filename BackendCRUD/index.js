@@ -41,7 +41,7 @@ app.get('/departamentos', async (req, res) => {
       include: {
         pais: {
           select: {
-            nombre: true  // Puedes agregar otros campos si necesitas
+            nombre: true 
           }
         }
       }
@@ -86,9 +86,23 @@ app.delete('/departamentos/:id', async (req, res) => {
 
 // ------------------- MUNICIPIOS -------------------
 app.get('/municipios', async (req, res) => {
-  const items = await prisma.municipio.findMany();
-  res.json(items);
+  try {
+    const items = await prisma.municipio.findMany({
+      include: {
+        departamento: {
+          select: {
+            nombre: true
+          }
+        }
+      }
+    });
+    res.json(items);
+  } catch (error) {
+    console.error("Error al obtener municipios:", error);
+    res.status(500).json({ error: "Error al obtener municipios" });
+  }
 });
+
 
 app.get('/municipios/departamento/:departamentoId', async (req, res) => {
   const { departamentoId } = req.params;
