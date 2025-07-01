@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2025 at 09:46 AM
+-- Generation Time: Jul 01, 2025 at 08:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `crud_db`
+-- Database: `db_crud`
 --
 
 -- --------------------------------------------------------
@@ -62,7 +62,8 @@ CREATE TABLE `departamento` (
 INSERT INTO `departamento` (`id`, `nombre`, `paisId`) VALUES
 (1, 'Alta Verapaz', 1),
 (2, 'Managua', 2),
-(3, 'Boaco', 2);
+(3, 'Boaco', 2),
+(5, 'Baja Verapaz', 1);
 
 -- --------------------------------------------------------
 
@@ -217,7 +218,7 @@ ALTER TABLE `colaborador`
 -- AUTO_INCREMENT for table `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `empresa`
