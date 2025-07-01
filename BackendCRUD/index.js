@@ -36,9 +36,23 @@ app.delete('/paises/:id', async (req, res) => {
 
 // ------------------- DEPARTAMENTOS -------------------
 app.get('/departamentos', async (req, res) => {
-  const items = await prisma.departamento.findMany();
-  res.json(items);
+  try {
+    const items = await prisma.departamento.findMany({
+      include: {
+        pais: {
+          select: {
+            nombre: true  // Puedes agregar otros campos si necesitas
+          }
+        }
+      }
+    });
+    res.json(items);
+  } catch (error) {
+    console.error('Error al obtener departamentos:', error);
+    res.status(500).json({ error: 'Error al obtener departamentos' });
+  }
 });
+
 
 app.get('/departamentos/pais/:paisId', async (req, res) => {
   const { paisId } = req.params;

@@ -1,0 +1,36 @@
+<div class="p-5">
+    <div class="d-flex w-100 justify-content-center">
+        <h1 mat-dialog-title>Agregar Departamento</h1>
+    </div>
+    <div mat-dialog-content>
+        <form [formGroup]="statesForm">
+            <div class="mb-3">
+                <label for="pais" class="form-label">País: </label>
+                <div class="input-group">
+                    <select class="form-select" formControlName="paisId" id="pais">
+                        <option value="" disabled selected>Seleccione un país</option>
+                        <option *ngFor="let country of countries" [value]="country.id">
+                            {{ country.nombre }}
+                        </option>
+                    </select>
+                </div>
+                <span class="text-danger"
+                    *ngIf="statesForm.get('paisId')?.invalid && statesForm.get('paisId')?.touched">
+                    {{ getErrorMessage('paisId') }}
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Departamento: </label>
+                <div class="input-group">
+                    <input type="text" class="form-control" formControlName="nombre" placeholder="Departamento">
+                </div>
+                <span class="text-danger"
+                    *ngIf="statesForm.get('empresaId')?.invalid && statesForm.get('empresaId')?.touched">{{getErrorMessage('empresaId')}}</span>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions class="w-100 d-flex justify-content-center">
+        <button mat-button (click)="close()" class="btn btn-danger me-2">Cancelar</button>
+<button mat-button (click)="updateState()" class="btn btn-success" [disabled]="statesForm.invalid">Actualizar</button>    </div>
+</div>

@@ -1,1 +1,33 @@
-<p>state works!</p>
+<div class="card p-5">
+    <button mat-button class="btn btn-success mb-2" (click)="addState()" style="width: 150px;">Nuevo</button>
+    <mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="pais">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> País </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.pais.nombre}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.nombre}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button mat-button class="btn btn-warning me-2" (click)="editState(element)">Editar</button>
+                <button mat-button class="btn btn-danger" (click)="deleteState(element)">Eliminar</button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsState"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsState;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
