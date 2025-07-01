@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2025 at 08:28 PM
+-- Generation Time: Jul 02, 2025 at 12:43 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_crud`
+-- Database: `crud_db`
 --
 
 -- --------------------------------------------------------
@@ -230,7 +230,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT for table `municipio`
 --
 ALTER TABLE `municipio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pais`
