@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { PersonServiceService } from '../../services/person-service.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { CompanyService } from '../../services/company.service';
 
 @Component({
   selector: 'app-add-person-dialog',
@@ -11,19 +12,21 @@ import { CommonModule } from '@angular/common';
   templateUrl: './add-person-dialog.component.html',
   styleUrl: './add-person-dialog.component.css'
 })
-export class AddPersonDialogComponent {
+export class AddPersonDialogComponent implements OnInit{
 
  personForm!: FormGroup;
   showValidationErrors: boolean = false
+  empresas: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddPersonDialogComponent>,
     private personService: PersonServiceService,
     private toastr: ToastrService,
+    private companyService: CompanyService
   ) {
     this.personForm = this.fb.group({
-      empresaId: [null, Validators.required],
+      empresaId: [1, Validators.required],
       nombreCompleto: ['', Validators.required],
       edad: [null, Validators.required],
       telefono: ['', Validators.required],
@@ -31,9 +34,26 @@ export class AddPersonDialogComponent {
     });
   }
 
-addPerson() {
+  ngOnInit(): void {
+    this.loadCompanies();
+  }
+
+
+  loadCompanies() {
+    this.companyService.getCompany().subscribe({
+      next: (data) => {
+        this.empresas = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar las empresas:', err);
+      }
+    });
+  }
+
+  addPerson() {
     if (this.personForm.valid) {
       const person = this.personForm.value;
+      person.empresaId = Number(person.empresaId);
       this.personService.addPerson(person).subscribe(
         response => {
           this.toastr.success("Colaborador creado con éxito");

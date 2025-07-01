@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { ToastrService } from 'ngx-toastr';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CompanyService } from '../../services/company.service';
-import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 import { CountryServiceService } from '../../services/country-service.service';
-import { StateService } from '../../services/state.service';
+import { CommonModule } from '@angular/common';
 import { TownService } from '../../services/town.service';
+import { StateService } from '../../services/state.service';
 
 @Component({
-  selector: 'app-add-company-dialog',
-  imports: [FormsModule, ReactiveFormsModule, CommonModule],
-  templateUrl: './add-company-dialog.component.html',
-  styleUrl: './add-company-dialog.component.css'
+  selector: 'app-edit-company-dialog',
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  templateUrl: './edit-company-dialog.component.html',
+  styleUrl: './edit-company-dialog.component.css'
 })
-export class AddCompanyDialogComponent implements OnInit {
+export class EditCompanyDialogComponent implements OnInit {
 
   companyForm!: FormGroup;
   showValidationErrors: boolean = false
@@ -24,29 +24,28 @@ export class AddCompanyDialogComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AddCompanyDialogComponent>,
+    private dialogRef: MatDialogRef<EditCompanyDialogComponent>,
     private companyService: CompanyService,
     private toastr: ToastrService,
     private countryService: CountryServiceService,
     private stateService: StateService,
-    private townService: TownService
+        private townService: TownService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.companyForm = this.fb.group({
-      paisId: [1, Validators.required],
-      departamentoId: [null, Validators.required],
-      municipioId: [null, Validators.required],
-      nit: ["", Validators.required],
-      razonSocial: ["", Validators.required],
-      nombreComercial: ["", Validators.required],
-      telefono: ["", Validators.required],
-      correo: ["", Validators.required]
+      paisId: [data.paisId || 1, Validators.required],
+      departamentoId: [data.departamentoId || null, Validators.required],
+      municipioId: [data.municipioId || null, Validators.required],
+      nit: [data.nit || "", Validators.required],
+      razonSocial: [data.razonSocial || "", Validators.required],
+      nombreComercial: [data.nombreComercial || "", Validators.required],
+      telefono: [data.telefono || "", Validators.required],
+      correo: [data.correo || "", Validators.required]
     });
   }
-
   ngOnInit(): void {
     this.loadCountries();
-    // this.loadStates();
-    // this.loadTowns();
+
     const paisId = this.companyForm.get('paisId')?.value;
     if (paisId) {
       this.loadStates(Number(paisId));
@@ -89,6 +88,7 @@ export class AddCompanyDialogComponent implements OnInit {
       }
     });
   }
+
   loadTowns(departamentoId: number) {
     this.townService.getTowns(departamentoId).subscribe({
       next: (data) => {
@@ -100,19 +100,20 @@ export class AddCompanyDialogComponent implements OnInit {
     });
   }
 
-  addCompany() {
+  updateCompany() {
     if (this.companyForm.valid) {
       const company = this.companyForm.value;
+      company.paisId = Number(company.paisId);
       company.departamentoId = Number(company.departamentoId);
       company.municipioId = Number(company.municipioId);
-      this.companyService.addCompany(company).subscribe(
+      this.companyService.updateCompany(this.data.id, company).subscribe(
         response => {
-          this.toastr.success("Empresa creada con éxito");
+          this.toastr.success("Éxito");
           this.dialogRef.close(true);
         },
         error => {
           this.toastr.error(`Error: ${error.error.message}`);
-          console.error('Error al agregar', error);
+          console.error('Error al actualizar la empresa: ', error);
         }
       );
     } else {
@@ -126,10 +127,7 @@ export class AddCompanyDialogComponent implements OnInit {
 
   getErrorMessage(field: string): string {
     if (field === 'nombre') {
-      return this.companyForm.get('nombre')?.hasError('required') ? 'El campo es obligatorio' : '';
-    }
-    if (field === 'nombre') {
-      return this.companyForm.get('nombre')?.hasError('required') ? 'El campo es obligatorio' : '';
+      return this.companyForm.get('nombre')?.hasError('required') ? 'El nombre es obligatorio' : '';
     }
     return '';
   }

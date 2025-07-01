@@ -1,0 +1,48 @@
+<div class="card p-5">
+    <button mat-button class="btn btn-success" (click)="addPerson()" style="width: 150px;">Nuevo Colaborador</button>
+    <mat-table [dataSource]="dataSourcePersons" matSort>
+
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nombreComercial">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.empresa.nombreComercial}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nombreCompleto">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.nombreCompleto}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="edad">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Edad </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.edad}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="telefono">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Teléfono </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.telefono}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="correo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Correo </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.correo}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <button mat-button class="btn btn-warning me-2" (click)="editPerson(element)">Editar</button>
+                <button mat-button class="btn btn-danger" (click)="deletePerson(element)">Eliminar</button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsPersons"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumnsPersons;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

@@ -40,6 +40,17 @@ app.get('/departamentos', async (req, res) => {
   res.json(items);
 });
 
+app.get('/departamentos/pais/:paisId', async (req, res) => {
+  const { paisId } = req.params;
+
+  const items = await prisma.departamento.findMany({
+    where: { paisId: Number(paisId) }
+  });
+
+  res.json(items);
+});
+
+
 app.post('/departamentos', async (req, res) => {
   const { nombre, paisId } = req.body;
   const nuevo = await prisma.departamento.create({ data: { nombre, paisId } });
@@ -65,6 +76,16 @@ app.get('/municipios', async (req, res) => {
   res.json(items);
 });
 
+app.get('/municipios/departamento/:departamentoId', async (req, res) => {
+  const { departamentoId } = req.params;
+
+  const items = await prisma.municipio.findMany({
+    where: { departamentoId: Number(departamentoId) }
+  });
+
+  res.json(items);
+});
+
 app.post('/municipios', async (req, res) => {
   const { nombre, departamentoId } = req.body;
   const nuevo = await prisma.municipio.create({ data: { nombre, departamentoId } });
@@ -86,7 +107,15 @@ app.delete('/municipios/:id', async (req, res) => {
 
 // ------------------- EMPRESAS -------------------
 app.get('/empresas', async (req, res) => {
-  const items = await prisma.empresa.findMany();
+  const items = await prisma.empresa.findMany({
+    include: {
+      pais: {
+        select: {
+          nombre: true
+        }
+      }
+    }, where:{activo: true}
+  });
   res.json(items);
 });
 
@@ -110,15 +139,35 @@ app.put('/empresas/:id', async (req, res) => {
 
 app.delete('/empresas/:id', async (req, res) => {
   const { id } = req.params;
-  await prisma.empresa.delete({ where: { id: Number(id) } });
-  res.json({ message: 'Empresa eliminada' });
+
+  try {
+    const empresa = await prisma.empresa.update({
+      where: { id: Number(id) },
+      data: { activo: false },
+    });
+
+    res.json({ message: 'Empresa desactivada', empresa });
+  } catch (error) {
+    console.error('Error al desactivar empresa:', error);
+    res.status(500).json({ message: 'Error al desactivar empresa' });
+  }
 });
+
 
 // ------------------- COLABORADORES -------------------
 app.get('/colaboradores', async (req, res) => {
-  const items = await prisma.colaborador.findMany();
+  const items = await prisma.colaborador.findMany({
+    include: {
+      empresa: {
+        select: {
+          nombreComercial: true, 
+        },
+      },
+    },
+  });
   res.json(items);
 });
+
 
 app.post('/colaboradores', async (req, res) => {
   const { empresaId, nombreCompleto, edad, telefono, correo } = req.body;

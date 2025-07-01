@@ -44,6 +44,7 @@ model empresa {
   departamento    departamento  @relation(fields: [departamentoId], references: [id], map: "Empresa_departamentoId_fkey")
   municipio       municipio     @relation(fields: [municipioId], references: [id], map: "Empresa_municipioId_fkey")
   pais            pais          @relation(fields: [paisId], references: [id], map: "Empresa_paisId_fkey")
+  activo          Boolean       @default(true)
 
   @@index([departamentoId], map: "Empresa_departamentoId_fkey")
   @@index([municipioId], map: "Empresa_municipioId_fkey")

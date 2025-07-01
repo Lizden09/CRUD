@@ -19,4 +19,12 @@ export class CompanyService {
     return this.http.post(this.URL, company);
   }
 
+  updateCompany(companyId: number, company: { paisId?: number, nit?: string, razonSocial?: string,
+     nombreComercial?: string, telefono?: string, correo?: string }): Observable<any> {
+    return this.http.put(`${this.URL}/${companyId}`, company);
+  }
+
+  deleteCompany(companyId: number): Observable<any> {
+    return this.http.delete(`${this.URL}/${companyId}`);
+  }
 }

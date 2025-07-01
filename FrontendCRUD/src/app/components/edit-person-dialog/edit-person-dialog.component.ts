@@ -1,9 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { PersonServiceService } from '../../services/person-service.service';
 import { CommonModule } from '@angular/common';
+import { CompanyService } from '../../services/company.service';
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -11,16 +12,18 @@ import { CommonModule } from '@angular/common';
   templateUrl: './edit-person-dialog.component.html',
   styleUrl: './edit-person-dialog.component.css'
 })
-export class EditPersonDialogComponent {
+export class EditPersonDialogComponent implements OnInit{
 
   personForm!: FormGroup;
   showValidationErrors: boolean = false;
-
+  empresas: any[] = [];
+  
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditPersonDialogComponent>,
     private personService: PersonServiceService,
     private toastr: ToastrService,
+    private companyService: CompanyService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
    this.personForm = this.fb.group({
@@ -31,10 +34,26 @@ export class EditPersonDialogComponent {
       correo: [data.correo || '', Validators.required],
     });
   }
+   
+  ngOnInit(): void {
+    this.loadCompanies();
+  }
+
+  loadCompanies() {
+    this.companyService.getCompany().subscribe({
+      next: (data) => {
+        this.empresas = data;
+      },
+      error: (err) => {
+        console.error('Error al cargar las empresas:', err);
+      }
+    });
+  }
 
    updatePerson() {
     if (this.personForm.valid) {
       const person = this.personForm.value;
+      person.empresaId = Number(person.empresaId);
       this.personService.updatePerson(this.data.id, person).subscribe(
         response => {
           this.toastr.success("Éxito");

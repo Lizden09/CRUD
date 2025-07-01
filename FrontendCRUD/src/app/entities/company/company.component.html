@@ -1,5 +1,5 @@
 <div class="card p-5">
-        <button mat-button class="btn btn-success" (click)="addCompany()"
+        <button mat-button class="btn btn-success mb-2" (click)="addCompany()"
           style="width: 150px;">Nuevo</button>
           <mat-table [dataSource]="dataSourceCompany" matSort>
           
@@ -8,9 +8,14 @@
               <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
             </ng-container>
           
-            <ng-container matColumnDef="paisId">
+            <ng-container matColumnDef="pais">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del País </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.paisId}} </mat-cell>
+              <mat-cell *matCellDef="let element"> {{element.pais.nombre}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="estado">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.activo}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="nit">
@@ -25,7 +30,7 @@
 
             <ng-container matColumnDef="nombreComercial">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Comercial </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.nombreComecial}} </mat-cell>
+              <mat-cell *matCellDef="let element"> {{element.nombreComercial}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="telefono">

@@ -13,21 +13,20 @@ import { AddPersonDialogComponent } from './components/add-person-dialog/add-per
 import { PersonServiceService } from './services/person-service.service';
 import { EditPersonDialogComponent } from './components/edit-person-dialog/edit-person-dialog.component';
 import { CompanyComponent } from "./entities/company/company.component";
+import { LeftSidebarComponent } from './left-sidebar/left-sidebar.component';
+import { MainComponent } from './main/main.component';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatTableModule, MatPaginatorModule, CompanyComponent],
+  imports: [LeftSidebarComponent, MainComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
   title = 'FrontendCRUD';
 
-  displayedColumns: string[] = ['id', 'nombre', 'actions'];
-  displayedColumnsPersons: string[] = ['id', 'empresaId', 'nombreCompleto', 'edad', 'telefono', 'correo', 'actions'];
-  dataSource: MatTableDataSource<any> = new MatTableDataSource();
-  dataSourcePersons: MatTableDataSource<any> = new MatTableDataSource();
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -39,111 +38,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCountries();
-    this.getPersons();
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  getCountries() {
-    this.countryService.getCountries().subscribe(
-      response => {
-        this.dataSource = new MatTableDataSource(response);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error => {
-        this.toastr.error(`Error: ${error.error.message}`);
-        console.error("Error al obtener los paises: ", error);
-      }
-    );
-  }
-
-  addCountry() {
-    const dialogRef = this.dialog.open(AddCountryDialogComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.getCountries();
-      }
-    });
-  }
-
-  editCountry(country: any) {
-    const dialogRef = this.dialog.open(EditCountryDialogComponent, { data: country });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.getCountries();
-      }
-    });
-  }
-
-  deleteCountry(country: any) {
-    this.countryService.deleteCountry(country.id).subscribe(
-      response => {
-        this.toastr.success("Éxito");
-        this.getCountries();
-      },
-      error => {
-        this.toastr.error(`Error al eliminar el país: ${error.error.message}`);
-      }
-    )
   }
 
   // Agregar colaboradores
 
-  getPersons() {
-    this.personService.getPersons().subscribe(
-      response => {
-        this.dataSourcePersons = new MatTableDataSource(response);
-        this.dataSourcePersons.paginator = this.paginator;
-        this.dataSourcePersons.sort = this.sort;
-      },
-      error => {
-        this.toastr.error(`Error: ${error.error.message}`);
-        console.error("Error al obtener los colaboradores: ", error);
-      }
-    );
-  }
+  
 
-   addPerson() {
-    const dialogRef = this.dialog.open(AddPersonDialogComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.getPersons();
-      }
-    });
-  }
-
-  editPerson(person: any) {
-    console.log(person);
-    const dialogRef = this.dialog.open(EditPersonDialogComponent, { data: person });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.getPersons();
-      }
-    });
-  }
-
-  deletePerson(person: any) {
-    this.personService.deletePerson(person.id).subscribe(
-      response => {
-        this.toastr.success("Éxito");
-        this.getPersons();
-      },
-      error => {
-        this.toastr.error(`Error al eliminar el país: ${error.error.message}`);
-      }
-    )
-  }
+   
 }
